@@ -1,5 +1,5 @@
 CC=g++
-all: encode_image decode_image 
+all: encode_image decode_image test
 
 
 encode_image: encodeimage.cpp
@@ -7,3 +7,6 @@ encode_image: encodeimage.cpp
 	
 decode_image: decodeimage.cpp
 	$(CC) -o decodeimage decodeimage.cpp
+
+test: test.cpp
+	$(CC) -o test test.cpp

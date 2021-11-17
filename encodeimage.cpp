@@ -30,13 +30,42 @@ bool getBitValue(char ch, int bit) {
 int main(int argc, char** argv) {
 	string messagefile = "hidden_message.txt";
 	
-	ifstream message(messagefile);
+	ifstream image;
+	image.open("gumpypic.png");
+	if (image.is_open() == false) {
+		cout << "Error opening image" << endl;
+	}
+	
+	
+	
+	ifstream message (messagefile, ifstream::binary);
+	// message.open(messagefile);
 	if (message.is_open() == false) {
 		cout << "Error opening message" << endl;
 	}
 	
 	char c = 'f';
 	
+	////////////////////////////////////////////
+	
+	// std::ifstream ifs ("test.txt", std::ifstream::in);
+
+	char ch = image.get();
+	// char ch = message.get();
+	int gcount = message.gcount();
+	int count = 0;
+	cout << "gcount = " << gcount << endl;
+
+	while (count < gcount) {
+		cout << ch;
+		ch = image.get();
+		count++;
+	}
+
+	image.close();
+
+	
+	/*
 	getBitValue(c, 0);
 	getBitValue(c, 1);
 	getBitValue(c, 2);
@@ -45,7 +74,35 @@ int main(int argc, char** argv) {
 	getBitValue(c, 5);
 	getBitValue(c, 6);
 	getBitValue(c, 7);
+	*/
 
+	int bitcount = 0;
+	bool end_of_image = false;
+	bool message_encoded = false;
+	
+	while (end_of_image == false) {
+		if (message.eof()) {
+			message_encoded = true;
+		}
+		image.get(c);
+		// cout << c;
+		
+		if (image.eof()) {
+			end_of_image = true;
+			break;
+		}
+	}
+	
+	// message_encoded = true;
+	
+	if (message_encoded) {
+		cout << "Message encoded" << endl;
+	}
+	else {
+		cout << "Message not encoded" << endl;
+	}
+	cout << endl << "done" << endl;
+	
 	
 	/* Pseudo Code
 	check args
@@ -58,6 +115,10 @@ int main(int argc, char** argv) {
 		store in char 
 	
 	bitcount = 0
+	variable for if file ended
+	variable for when message is done encoding
+	
+	
 	
 	for all rows in image.rows
 		for all columns in image.cols
